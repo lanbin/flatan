@@ -1,6 +1,6 @@
 {
   "name": "@flatan/rules",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Easy to use async-validator",
   "type": "module",
   "module": "dist/index.js",
@@ -56,4 +56,3 @@
   },
   "license": "MIT"
 }
-
