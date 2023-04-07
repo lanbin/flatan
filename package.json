@@ -5,7 +5,8 @@
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm --filter=@flatan/* run build",
     "changeset": "changeset",
-    "version-packages": "changeset version"
+    "version-packages": "changeset version",
+    "publish": "pnpm changeset publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.26.0",
