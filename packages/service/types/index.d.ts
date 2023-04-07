@@ -1,13 +1,15 @@
-import { AxiosInstance } from 'axios';
+interface FlatanServiceMap {
+  [key: string]: (data: any, option: any) => Promise<AxiosResponse<any, any>>;
+}
+
+interface FlatanUrlMap {
+  [key: string]: string;
+}
 
 interface FlatanServiceStoreReturn {
   install: (options: FlatanServiceOption) => void;
-  services: {
-    [key: string]: () => Promise<any>;
-  };
-  urls: {
-    [key: string]: string;
-  };
+  services: FlatanServiceMap;
+  urls: FlatanUrlMap;
 }
 
 interface FlatanServiceOption {

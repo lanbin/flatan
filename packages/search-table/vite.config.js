@@ -14,13 +14,14 @@ export default defineConfig({
     outDir: 'dist',
 
     rollupOptions: {
-      external: ['vue', '@vueuse/shared', 'lodash-es'],
+      external: ['vue', '@vueuse/shared', 'lodash-es', 'uno.css', 'ant-design-vue'],
       input: ['lib/index.ts'],
       output: {
         globals: {
           vue: 'vue',
           '@vueuse/shared': 'share',
           'lodash-es': 'lodashEs',
+          'ant-design-vue': 'ant-design-vue',
         },
         exports: 'named',
       },
@@ -28,7 +29,7 @@ export default defineConfig({
     lib: {
       entry: './lib/index.ts',
       fileName: 'index',
-      name: 'FlatanService',
+      name: 'FlatanSeachTable',
     },
   },
 });

@@ -1,20 +1,19 @@
-import { App } from 'vue';
-import { FlatanServiceOption } from '../types';
-import { FlatServiceStore } from './store';
+import { FlatanServiceStore } from './store';
+export { FlatanServiceStore } from './store';
 
-export { FlatServiceStore } from './store';
+const FlatanService = {
+  install: (Vue: any, options: FlatanServiceOption) => {
+    const { $http } = options;
 
-const plugin = (Vue: App, options: FlatanServiceOption) => {
-  const { $http } = options;
+    if (!$http) {
+      return new Error(
+        `Missing $http field configuration. Please specify the object responsible for sending the request, such as axios`,
+      );
+    }
 
-  if (!$http) {
-    return new Error(
-      `Missing $http field configuration. Please specify the object responsible for sending the request, such as axios`,
-    );
-  }
-
-  FlatServiceStore.install(options);
+    FlatanServiceStore.install(options);
+  },
 };
 
-export default plugin;
+export default FlatanService;
 

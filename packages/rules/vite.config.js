@@ -28,7 +28,7 @@ export default defineConfig({
     lib: {
       entry: './lib/index.ts',
       fileName: 'index',
-      name: 'FlatanService',
+      name: 'FlatanRule',
     },
   },
 });

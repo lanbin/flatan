@@ -1,14 +1,13 @@
 import { createGlobalState } from '@vueuse/core';
 import { upperFirst } from 'lodash-es';
-import { FlatanServiceOption, FlatanServiceStoreReturn } from '../../types';
 
 const DomainReg = /^http(s?):\/\/.*?\//;
 const ProtocalReg = /^http(s?)/;
 const ParamReg = /\((.+?)\)/g;
 
-export const FlatServiceStore = createGlobalState<FlatanServiceStoreReturn>(() => {
-  const services: any = {};
-  const urls: any = {};
+export const FlatanServiceStore = createGlobalState<FlatanServiceStoreReturn>(() => {
+  const services: FlatanServiceMap = {};
+  const urls: FlatanUrlMap = {};
 
   const install = (options: FlatanServiceOption) => {
     options.apis.forEach((api: string) => {
@@ -63,12 +62,12 @@ export const FlatServiceStore = createGlobalState<FlatanServiceStoreReturn>(() =
           return options.$http(method === 'get' ? { params: data, ...param } : { data, ...param });
         }
       };
-
-      if (options.debug) {
-        console.log(services);
-        console.log(urls);
-      }
     });
+
+    if (options.debug) {
+      console.log(services);
+      console.log(urls);
+    }
   };
 
   return {

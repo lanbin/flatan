@@ -1,5 +1,3 @@
-import { App } from 'vue';
-import { FlatanServiceOption } from '../types';
-export { FlatServiceStore } from './store';
-declare const plugin: (Vue: App, options: FlatanServiceOption) => Error;
-export default plugin;
+export * from './lib/index'
+import FlatanService from './lib/index'
+export default FlatanService
