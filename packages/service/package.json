@@ -1,6 +1,6 @@
 {
   "name": "@flatan/service",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Easy to gathter all url to be service instance function",
   "type": "module",
   "module": "dist/index.js",
