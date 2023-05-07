@@ -1,114 +1,119 @@
-import { defineComponent as N, ref as c, onMounted as T, watch as $, openBlock as v, createElementBlock as w, createElementVNode as k, normalizeClass as O, Fragment as P, renderList as E, createBlock as L, resolveDynamicComponent as M, mergeProps as x, renderSlot as p, createVNode as f, unref as m, withCtx as h, createTextVNode as S, normalizeProps as Q, guardReactiveProps as V } from "vue";
-import { Button as z, Table as j } from "ant-design-vue";
-import { merge as D } from "lodash-es";
-const I = { class: "search-table-wrapper" }, U = { class: "search-table-filters-action-btn-wrapper" }, F = /* @__PURE__ */ N({
+import { defineComponent as O, ref as i, onMounted as P, watch as E, openBlock as v, createElementBlock as S, createElementVNode as k, normalizeClass as L, Fragment as M, renderList as Q, createBlock as V, resolveDynamicComponent as j, mergeProps as z, renderSlot as d, createVNode as h, unref as f, withCtx as m, createTextVNode as x, normalizeProps as D, guardReactiveProps as I } from "vue";
+import { Button as B, Table as U } from "ant-design-vue";
+import { merge as N } from "lodash-es";
+const F = { class: "search-table-wrapper" }, J = { class: "search-table-filters-action-btn-wrapper" }, R = /* @__PURE__ */ O({
   __name: "index",
   props: ["options"],
-  setup(r, { expose: i }) {
-    const n = r, s = c(!1), l = c({}), o = c({
+  setup(r, { expose: p }) {
+    var y;
+    const l = r, s = i(!1), n = i({}), a = i({
       page: 1,
       current: 1,
-      size: "10",
+      pageSize: 10,
       showLessItems: !0,
-      showSizeChanger: !1,
+      showSizeChanger: !0,
       showQuickJumper: !0,
       showTotal: (e) => `共有 ${e} 项`,
-      onChange: (e) => B(e)
-    }), a = c({
+      onChange: (e) => T(e),
+      onShowSizeChange: (e, u) => $(u),
+      ...(y = l.options) == null ? void 0 : y.pagination
+    }), t = i({
       fetchNow: !0
-    }), b = c([]), _ = () => {
-      o.value.page = 1, o.value.current = 1, u();
-    }, g = () => {
-      Object.keys(l.value).forEach((e) => l.value[e] = null);
-    }, u = async () => {
+    }), g = i([]), b = () => {
+      a.value.page = 1, a.value.current = 1, c();
+    }, _ = () => {
+      Object.keys(n.value).forEach((e) => n.value[e] = null);
+    }, c = async () => {
       if (!s.value)
         try {
-          s.value = !0, a.value.beforeQuery && a.value.beforeQuery(l.value);
-          const { total: e, page: d, size: t, ...y } = o.value, C = await a.value.fetchMethod({
-            ...l.value,
-            page: d,
-            size: Number(t)
+          s.value = !0, t.value.beforeQuery && t.value.beforeQuery(n.value);
+          const { total: e, page: u, pageSize: o, ...C } = a.value, w = await t.value.fetchMethod({
+            ...n.value,
+            page: u,
+            size: Number(o)
           });
-          o.value.current = d, o.value.total = C.total, b.value = C.rows;
+          a.value.current = u, l.options.pagination.total || (a.value.total = w.total), g.value = w.rows;
         } catch {
         } finally {
           s.value = !1;
         }
-    }, B = (e) => {
-      o.value.page = e, u();
+    }, T = (e) => {
+      a.value.page = e, c();
+    }, $ = (e) => {
+      a.value.pageSize = e, c();
     };
-    return T(() => {
-      a.value.fetchNow && a.value.fetchMethod && u();
-    }), $(
-      () => n.options,
+    return P(() => {
+      t.value.fetchNow && t.value.fetchMethod && c();
+    }), E(
+      () => l.options,
       () => {
-        a.value = D(n.options, a.value);
+        t.value = N(l.options, t.value), a.value = N(a.value, l.options.pagination);
       },
       { immediate: !0 }
-    ), i({
-      fetch: u,
-      reset: g,
-      search: _
-    }), (e, d) => (v(), w("div", I, [
+    ), p({
+      fetch: c,
+      reset: _,
+      search: b
+    }), (e, u) => (v(), S("div", F, [
       k("div", {
-        class: O(["search-table-filters", a.value.formClass])
+        class: L(["search-table-filters", t.value.formClass])
       }, [
-        (v(!0), w(P, null, E(a.value.formOptions, (t) => (v(), L(M(t.type), x({
-          key: t.name,
-          placeholder: t.label,
+        (v(!0), S(M, null, Q(t.value.formOptions, (o) => (v(), V(j(o.type), z({
+          key: o.name,
+          placeholder: o.label,
           allowClear: !0,
           class: "search-table-filters-item"
-        }, t.$attrs, {
-          value: l.value[t.name],
-          "onUpdate:value": (y) => l.value[t.name] = y
+        }, o.$attrs, {
+          value: n.value[o.name],
+          "onUpdate:value": (C) => n.value[o.name] = C
         }), null, 16, ["placeholder", "value", "onUpdate:value"]))), 128))
       ], 2),
-      k("div", U, [
-        p(e.$slots, "beforeBtn", {}, void 0, !0),
-        f(m(z), {
+      k("div", J, [
+        d(e.$slots, "beforeBtn", {}, void 0, !0),
+        h(f(B), {
           type: "primary",
-          onClick: _
+          onClick: b
         }, {
-          default: h(() => [
-            S("查询")
+          default: m(() => [
+            x("查询")
           ]),
           _: 1
         }),
-        f(m(z), { onClick: g }, {
-          default: h(() => [
-            S("重置")
+        h(f(B), { onClick: _ }, {
+          default: m(() => [
+            x("重置")
           ]),
           _: 1
         }),
-        p(e.$slots, "afterBtn", {}, void 0, !0)
+        d(e.$slots, "afterBtn", {}, void 0, !0)
       ]),
-      f(m(j), x({
+      h(f(U), z({
         class: "search-table-body",
-        columns: a.value.tableCol,
-        dataSource: b.value,
+        columns: t.value.tableCol,
+        dataSource: g.value,
         scroll: { x: "max-content" },
         loading: s.value,
-        pagination: o.value,
+        pagination: a.value,
         tableLayout: "fixed"
       }, e.$attrs), {
-        bodyCell: h((t) => [
-          p(e.$slots, "bodyCell", Q(V(t)), void 0, !0)
+        bodyCell: m((o) => [
+          d(e.$slots, "bodyCell", D(I(o)), void 0, !0)
         ]),
         _: 3
       }, 16, ["columns", "dataSource", "loading", "pagination"])
     ]));
   }
 });
-const J = (r, i) => {
-  const n = r.__vccOpts || r;
-  for (const [s, l] of i)
-    n[s] = l;
-  return n;
-}, R = /* @__PURE__ */ J(F, [["__scopeId", "data-v-ab16d9dd"]]), H = {
+const q = (r, p) => {
+  const l = r.__vccOpts || r;
+  for (const [s, n] of p)
+    l[s] = n;
+  return l;
+}, A = /* @__PURE__ */ q(R, [["__scopeId", "data-v-6b90ebc0"]]), W = {
   install: (r) => {
-    r.component("SearchTable", R);
+    r.component("SearchTable", A);
   }
 };
 export {
-  H as default
+  W as default
 };

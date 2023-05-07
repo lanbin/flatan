@@ -47,13 +47,16 @@
   const paginationObject = ref<any>({
     page: 1,
     current: 1,
-    size: '10',
+    pageSize: 10,
     showLessItems: true,
-    showSizeChanger: false,
+    showSizeChanger: true,
     showQuickJumper: true,
     showTotal: (total: number) => `共有 ${total} 项`,
     onChange: (page: number) => paginationChanged(page),
+    onShowSizeChange: (_: any, size: number) => showSizeChanged(size),
+    ...props.options?.pagination,
   });
+
   const tableOptions = ref<any>({
     fetchNow: true,
   });
@@ -79,16 +82,19 @@
         tableOptions.value.beforeQuery(searchData.value);
       }
 
-      const { total, page, size, ...pg } = paginationObject.value;
+      const { total, page, pageSize, ...pg } = paginationObject.value;
 
       const result: any = await tableOptions.value.fetchMethod({
         ...searchData.value,
         page,
-        size: Number(size),
+        size: Number(pageSize),
       });
       paginationObject.value.current = page;
 
-      paginationObject.value.total = result.total;
+      if (!props.options.pagination.total) {
+        paginationObject.value.total = result.total;
+      }
+
       rows.value = result.rows;
     } catch (e: any) {
     } finally {
@@ -98,6 +104,11 @@
 
   const paginationChanged = (page: number) => {
     paginationObject.value.page = page;
+    fetch();
+  };
+
+  const showSizeChanged = (size: number) => {
+    paginationObject.value.pageSize = size;
     fetch();
   };
 
@@ -111,6 +122,7 @@
     () => props.options,
     () => {
       tableOptions.value = merge(props.options, tableOptions.value);
+      paginationObject.value = merge(paginationObject.value, props.options.pagination);
     },
     { immediate: true },
   );

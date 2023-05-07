@@ -1,44 +1,45 @@
-import { upperFirst as a } from "lodash-es";
-import { createGlobalState as E } from "@vueuse/shared";
-const R = /^http(s?):\/\/.*?\//, b = /^http(s?)/, P = /\((.+?)\)/g, F = E(() => {
-  const i = {}, l = {};
+import { upperFirst as p } from "lodash-es";
+import { createGlobalState as F } from "@vueuse/shared";
+const R = /^http(s?):\/\/.*?\//, S = /^http(s?)/, x = /\((.+?)\)/g, j = F(() => {
+  const i = {}, r = {};
   return {
     services: i,
-    urls: l,
+    urls: r,
     install: (s) => {
-      s.apis.forEach((S) => {
-        var m, g;
-        let [e, f = "get", x = ""] = S.split("|");
-        const o = e.match(P);
-        let n = e.replace(R, "").replace(P, "").split("/").reduce((t, r) => (r.indexOf("-") > -1 ? t.concat(r.split("-").map((c) => a(c))) : t.push(a(r)), t), []).join("");
-        (m = e == null ? void 0 : e.match(b)) != null && m[0] && (n = a((g = e.match(b)) == null ? void 0 : g[0]) + n);
-        const h = x || n;
-        o || (l[h] = e), i[h] = (t, r) => {
-          o && o.forEach((u) => {
-            const $ = u.replace(/^\(|\)$/g, "");
-            e = e.replace(u, (t == null ? void 0 : t[$]) || ""), t == null || delete t[$];
-          }), s.appRoot && !e.match(R) && (e = `${s.appRoot}${e}`);
-          let c = {
-            url: e,
-            method: f,
-            ...r
+      s.apis.forEach((h) => {
+        var g, $;
+        let [l, m = "get", E = ""] = h.split("|");
+        const o = l.match(x);
+        let n = l.replace(R, "").replace(x, "").split("/").reduce((e, c) => (c.indexOf("-") > -1 ? e.concat(c.split("-").map((t) => p(t))) : e.push(p(c)), e), []).join("");
+        (g = l == null ? void 0 : l.match(S)) != null && g[0] && (n = p(($ = l.match(S)) == null ? void 0 : $[0]) + n);
+        const u = E || n;
+        o || (r[u] = l), i[u] = (e, c) => {
+          let [t] = h.split("|");
+          o && o.forEach((b) => {
+            const P = b.replace(/^\(|\)$/g, "");
+            t = t.replace(b, e == null ? void 0 : e[P]), e == null || delete e[P];
+          }), s.appRoot && !t.match(R) && (t = `${s.appRoot}${t}`);
+          let a = {
+            url: t,
+            method: m,
+            ...c
           };
-          return s.isMini ? s.$http({ data: t, ...c }) : s.$http(f === "get" ? { params: t, ...c } : { data: t, ...c });
+          return s.isMini ? s.$http({ data: e, ...a }) : s.$http(m === "get" ? { params: e, ...a } : { data: e, ...a });
         };
-      }), s.debug && (console.log(i), console.log(l));
+      }), s.debug && (console.log(i), console.log(r));
     }
   };
-})(), M = {
-  install: (i, l) => {
-    const { $http: p } = l;
-    if (!p)
+})(), q = {
+  install: (i, r) => {
+    const { $http: f } = r;
+    if (!f)
       return new Error(
         "Missing $http field configuration. Please specify the object responsible for sending the request, such as axios"
       );
-    F.install(l);
+    j.install(r);
   }
 };
 export {
-  F as FlatanServiceStore,
-  M as default
+  j as FlatanServiceStore,
+  q as default
 };

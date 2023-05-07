@@ -11,10 +11,10 @@ export const FlatanServiceStore = createGlobalState<FlatanServiceStoreReturn>(()
 
   const install = (options: FlatanServiceOption) => {
     options.apis.forEach((api: string) => {
-      let [url, method = 'get', alias = ''] = api.split('|');
-      const hasUrlParams = url.match(ParamReg);
+      let [originURL, method = 'get', alias = ''] = api.split('|');
+      const hasUrlParams = originURL.match(ParamReg);
 
-      let name = url
+      let name = originURL
         .replace(DomainReg, '')
         .replace(ParamReg, '')
         .split('/')
@@ -28,20 +28,23 @@ export const FlatanServiceStore = createGlobalState<FlatanServiceStoreReturn>(()
         }, [])
         .join('');
 
-      if (url?.match(ProtocalReg)?.[0]) {
-        name = upperFirst(url.match(ProtocalReg)?.[0]) + name;
+      if (originURL?.match(ProtocalReg)?.[0]) {
+        name = upperFirst(originURL.match(ProtocalReg)?.[0]) + name;
       }
 
       const keyName: string = alias || name;
       if (!hasUrlParams) {
-        urls[keyName] = url;
+        urls[keyName] = originURL;
       }
 
       services[keyName] = (data: any, option: any) => {
+        let [url] = api.split('|');
+
         if (hasUrlParams) {
           hasUrlParams.forEach((key) => {
             const dataKey = key.replace(/^\(|\)$/g, '');
-            url = url.replace(key, data?.[dataKey] || '');
+            url = url.replace(key, data?.[dataKey]);
+
             delete data?.[dataKey];
           });
         }
